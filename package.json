@@ -1,0 +1,12 @@
+{
+  "name": "chattur-box",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./app/server/index.js"
+  },
+  "dependencies": {
+    "ejs": "~2.6.1",
+    "express": "~4.16.1"
+  }
+}
