@@ -34,7 +34,7 @@ function Sockets(io) {
         socket.on('disconnect', function(){
             var connection = connections[socket.id];
             if(!connection.username) return;
-            io.emit('chat info', `${connection.username} has left the chat`);
+            io.emit('chat info', `${connection.username}#${connection.id} has left the chat`);
             delete connections[socket.id];
         });
 
