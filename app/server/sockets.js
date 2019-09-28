@@ -1,20 +1,46 @@
 function Sockets(io) {
+    var connections = {}
     
     // User connected
     io.on('connection', function(socket){
-        
-        console.log('A user connected');
+
+        // On connect: Store socket user data
+        connections[socket.id] = { 
+            id: generateId()
+        };
+
+        // Set Username
+        socket.on('set username', function(username) {
+            var connection = connections[socket.id];
+
+            if(connection.username) return;
+            connection.username = username;
+
+            io.emit('chat info', `${username} has connected`);
+        });
 
         socket.on('chat message', function(message){
-            io.emit('chat message', message);
+            var connection = connections[socket.id];
+            if(!connection.username) return;
+
+            io.emit('chat message', {
+                id          : connection.id,
+                username    : connection.username,
+                message     : message
+            });
         });
 
         // User disconnected
         socket.on('disconnect', function(){
-            console.log('User disconnected');
+            var connection = connections[socket.id];
+            io.emit('chat info', `${connection.username} has left the chat`);
         });
 
     });
+}
+
+function generateId() {
+    return Math.ceil(Math.random() * 90000) + 10000;
 }
 
 module.exports = Sockets;
