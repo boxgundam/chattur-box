@@ -16,7 +16,7 @@ function Sockets(io) {
             if(connection.username) return;
             connection.username = username;
 
-            io.emit('chat info', `${username} has connected`);
+            io.emit('chat info', `${username}#${connection.id} has connected`);
         });
 
         socket.on('chat message', function(message){
