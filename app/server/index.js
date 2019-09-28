@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, `${appPath}/public`)));
 
 // Routes
 app.use('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index');
 });
 
 var port = normalizePort(process.env.PORT || '3000');
