@@ -4,7 +4,6 @@ const http = require('http');
 const path = require('path');
 const express = require('express');
 const app = express();
-// const sockets = require('./sockets.js');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -13,7 +12,7 @@ app.use(express.static(path.join(__dirname, `${APPPATH}/public`)));
 
 // Routes
 app.use('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.send('Page Not Found');
 });
 
 var port = normalizePort(process.env.PORT || '3000');
@@ -21,7 +20,9 @@ app.set('port', port);
 
 const server = http.createServer(app);
 
-// new sockets();
+// Add sockets
+const io = require('socket.io')(server);
+new (require('./sockets.js'))(io);
 
 // Listen on provided port, on all network interfaces.
 server.listen(port);
