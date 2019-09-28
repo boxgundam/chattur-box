@@ -1,20 +1,15 @@
-var http = require('http');
-var path = require('path');
+const APPPATH = '../client/';
 
-var express = require('express');
-
-var appPath = '../client/';
-
-var app = express();
-
-// View engine setup
-app.set('views', path.join(__dirname, `${appPath}/views`));
-app.set('view engine', 'ejs');
+const http = require('http');
+const path = require('path');
+const express = require('express');
+const app = express();
+// const sockets = require('./sockets.js');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(express.static(path.join(__dirname, `${appPath}/public`)));
+app.use(express.static(path.join(__dirname, `${APPPATH}/public`)));
 
 // Routes
 app.use('/', function(req, res, next) {
@@ -24,7 +19,9 @@ app.use('/', function(req, res, next) {
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-var server = http.createServer(app);
+const server = http.createServer(app);
+
+// new sockets();
 
 // Listen on provided port, on all network interfaces.
 server.listen(port);
@@ -59,7 +56,6 @@ function onListening() {
   var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   console.info('Listening on ' + bind);
 }
-
 
 // Normalize a port into a number, string, or false.
 function normalizePort(val) {

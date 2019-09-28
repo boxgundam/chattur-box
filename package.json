@@ -6,7 +6,7 @@
     "start": "node ./app/server/index.js"
   },
   "dependencies": {
-    "ejs": "~2.6.1",
-    "express": "~4.16.1"
+    "express": "~4.16.1",
+    "socket.io": "^2.3.0"
   }
 }
