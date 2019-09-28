@@ -1,37 +1,37 @@
 /* base page styles */
-body {
-    padding: 50px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-    background: #2B2B2B;
-    color: #A9B7C6;
-  }
-  
-  div {
-    background-color: rgba(86, 61, 124, .15);
-    border: 1px solid rgba(86, 61, 124, .2);
-  }
-  
-  a:link {
-    color: #A9B7C6;
-  }
-  
-  a:visited {
-    color: #9876AA;
-  }
-  
-  a:hover {
-    color: #E7BE5F;
-  }
-  
-  a:active {
-    color: #E18F8F;
-  }
-  
-  /* boostrap overriding styles*/
-  .card {
-    color: black;
-  }
-  
-  .card .btn-primary {
-    color: lightskyblue;
-  }
+body {  
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #2b2b2b;
+  color: #a9b7c6;
+}
+
+div {
+  background-color: rgba(86, 61, 124, 0.15);
+  border: 1px solid rgba(86, 61, 124, 0.2);
+}
+
+a:link {
+  color: #a9b7c6;
+}
+
+a:visited {
+  color: #9876aa;
+}
+
+a:hover {
+  color: #e7be5f;
+}
+
+a:active {
+  color: #e18f8f;
+}
+
+/* boostrap overriding styles*/
+.card {
+  color: black;
+}
+
+.card .btn-primary {
+  color: lightskyblue;
+}
