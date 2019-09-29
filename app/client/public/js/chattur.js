@@ -132,7 +132,13 @@ jQuery(document).ready(function($) {
         if(data.source == Source.Self && data.status == 'success') {
             user.username = user.username.split(' (#')[0];
             user.verified = true;
-            $('#chatroom h1 span em').text(`Joined as ${user.username}`);
+
+            $('#chatroom h1 span em').text(`Verified as ${user.username}`);
+
+            $('#chatroom h1 button').remove();
+            $('#verifyForm').remove();
+
+
             updateUserList(data.connections);
         } else if (data.source == Source.Peer) {
             updateUserList(data.connections);
@@ -146,7 +152,12 @@ jQuery(document).ready(function($) {
         if(data.source == Source.Self && data.status == 'success') {
             user.username = user.username.split(' (#')[0];
             user.verified = true;
-            $('#chatroom h1 span em').text(`Joined as ${user.username}`);
+
+            $('#chatroom h1 span em').text(`Verified as ${user.username}`);
+
+            $('#chatroom h1 button').remove();
+            $('#verifyForm').remove();
+
             updateUserList(data.connections);
         } else if (data.source == Source.Peer) {
             updateUserList(data.connections);
