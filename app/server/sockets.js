@@ -174,8 +174,7 @@ function Sockets(app) {
 
     function generateId() {
         return Math.ceil(Math.random() * 90000) + 10000;
-    }
-         
+    }   
 }
 
 module.exports = Sockets;
