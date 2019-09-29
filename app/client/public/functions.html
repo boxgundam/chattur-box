@@ -10,18 +10,26 @@
       #chatroom h1 span { font-weight: 400; font-size: 14px; float: right; line-height: 40px; }
       #chatroom h1 button { font-size: 14px; padding: 3px 5px; margin-left: 10px; }
       #chat { border: 1px solid #888; height: 300px; overflow-y: scroll; padding: 5px 15px; }
-      #chat .usernanme { width: 100px; display: inline-block; }
+      #chat .username { position: relative; padding-left: 40px; display: inline-block; }
+      #chat .avatar { width: 30px; height: 30px; position: absolute; left: 0; top: -8px; display: block; }
       #verifyForm { text-align: right; margin-bottom: 15px; }
       #userList { border: 1px solid #888; height: 150px; overflow-y: scroll; padding: 5px 15px; }
       #userList ul { padding: 0; list-style-type: none; }
-      #userList ul li { margin-bottom: 7px; }
-      .verified { font-weight: bold; color: purple; }
+      #userList ul li { position: relative; padding-left: 40px; margin-bottom: 16px; }
+      #userList .avatar { width: 30px; height: 30px; position: absolute; left: 0; top: -8px; display: block; }
+      .verified { font-weight: bold; color: teal; }
     </style>
   </head>
   <body>
     
-    <form id="joinForm">
+    <form id="joinForm" enctype="multipart/form-data">
+      <h3>Username</h3>
       <input type="text" name="username" placeholder="Username" />
+      <h3>Avatar (optional)</h3>
+      <input type="file" name="file_avatar" /><br/>
+      <input type="hidden" name="avatar" /><br/>
+      <div id="avatarDisplay"></div>
+      <br/>
       <button type="submit">Join</button>
     </form>
 
