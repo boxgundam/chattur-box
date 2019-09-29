@@ -134,7 +134,7 @@ jQuery(document).ready(function($) {
 
         if(data.source == Source.Self) {
             user = data.user;
-            
+
             $('#joinForm').hide();
             $('#chatroom').show();
 
@@ -227,6 +227,14 @@ function addSystemMessage(message) {
 
 function addUserMessage(user, message) {
     let image = `<img src="${user.avatar ? user.avatar : getDefaultAvatar()}" class="avatar" />`;
+    
+    // Parse urls
+    message = message.replace(/(?:www|https?)[^\s]+/gi, function(capture) {
+        var url = capture.toLowerCase();
+        url = url.startsWith('www') ? `http://${url}` : url;
+        return `<a href="${url}" target="_blank">${capture}</a>`;
+    });
+
     $('#chat').append(`<p>
         <span class="username ${user.verified ? 'verified' : ''}">
             ${image}${user.username}:
