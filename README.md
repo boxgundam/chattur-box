@@ -1,18 +1,20 @@
-# Chattur
+# Chattur Box
 
-### Installation
+### Install
 - Run `npm install`  
 
-### Run
-- Run using `npm start`
-- Alternatively install [**Nodemon**]("https://www.npmjs.com/package/nodemon") `npm install -g nodemon`
-	- Run `nodemon start`
-- Access using `http://localhost:3000` or env PORT
+### Serve
+- Run: `npm start`
+	- Alternatively use [**Nodemon**]("https://www.npmjs.com/package/nodemon") 
+		- Install: `npm install -g nodemon`
+		- Run: `nodemon start`
+- Access using `http://localhost:3000` (or ENV PORT)
 
-### Dev Requirements
+### Development Tools
 - Sass Compiler
 	- Recommended: [**Live Sass Compiler**]("https://marketplace.visualstudio.com/items?itemName=ritwickdey.live-sass") **by Ritwick Dey** for Visual Studio Code
-
+- SQLite Browser
+	- Recommended: [**DB Browser for SQLite**]("https://sqlitebrowser.org/")
 
 
 

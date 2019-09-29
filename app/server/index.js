@@ -1,28 +1,48 @@
 const APPPATH = '../client/';
+const DATABASE = './app/app_data/Chattur.db';
 
 const http = require('http');
 const path = require('path');
 const express = require('express');
+const socketio = require('socket.io');
+const sqlite3 = require('sqlite3').verbose();
+
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false }));
 
 app.use(express.static(path.join(__dirname, `${APPPATH}/public`)));
 
+// Initialize database
+const db = new sqlite3.Database(DATABASE);
+
+app.set('db', db);
+
+db.serialize(function () {
+  db.run(`
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL UNIQUE,
+        password TEXT NOT NULL
+    );
+  `);
+});
+
 // Routes
-app.use('/', function(req, res, next) {
+app.use('/', function (req, res, next) {
   res.send('Page Not Found');
 });
 
-var port = normalizePort(process.env.PORT || '3000');
+let port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 const server = http.createServer(app);
 
 // Add sockets
-const io = require('socket.io')(server);
-new (require('./sockets.js'))(io);
+app.set('io', socketio(server));
+
+new(require('./sockets.js'))(app);
 
 // Listen on provided port, on all network interfaces.
 server.listen(port);
@@ -34,7 +54,7 @@ function onError(error) {
   if (error.syscall !== 'listen')
     throw error;
 
-  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+  let bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -53,19 +73,19 @@ function onError(error) {
 
 // Event listener for HTTP server "listening" event.
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+  let addr = server.address();
+  let bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   console.info('Listening on ' + bind);
 }
 
 // Normalize a port into a number, string, or false.
 function normalizePort(val) {
-  var port = parseInt(val, 10);
-  
+  let port = parseInt(val, 10);
+
   if (isNaN(port))
     return val;
 
-  if (port >= 0) 
+  if (port >= 0)
     return port;
 
   return false;

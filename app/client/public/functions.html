@@ -1,33 +1,51 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Title</title>
+    <title>Chattur Box</title>
     <link rel='stylesheet' href='/css/style.css' />
     <style>
+      body { padding: 25px; }
+      * { box-sizing: border-box; }
       input, button { font-size: 18px; padding: 7px; }
-      #chat { border: 1px solid #888; height: 300px; overflow: scroll; padding: 5px 15px; }
+      #chatroom h1 span { font-weight: 400; font-size: 14px; float: right; line-height: 40px; }
+      #chatroom h1 button { font-size: 14px; padding: 3px 5px; margin-left: 10px; }
+      #chat { border: 1px solid #888; height: 300px; overflow-y: scroll; padding: 5px 15px; }
       #chat .usernanme { width: 100px; display: inline-block; }
+      #verifyForm { text-align: right; margin-bottom: 15px; }
+      #userList { border: 1px solid #888; height: 150px; overflow-y: scroll; padding: 5px 15px; }
+      #userList ul { padding: 0; list-style-type: none; }
+      #userList ul li { margin-bottom: 7px; }
+      .verified { font-weight: bold; color: purple; }
     </style>
   </head>
   <body>
     
-    <h1>Step 1:</h1>
-    <p>Enter username</p>
-    <form id="usernameForm">
-      <input type="text" name="username"  />
-      <button type="submit">Set Username</button>
-    </form>
-    
-    <h1>Step 2:</h1>
-    <p>Send Message</p>
-    <form id="messageForm">
-      <input type="text" name="message" style="width: 100%;" />
-      <button type="submit">Send</button>
+    <form id="joinForm">
+      <input type="text" name="username" placeholder="Username" />
+      <button type="submit">Join</button>
     </form>
 
-    <h1>Chat</h1>
-    <div id="chat"></div>
-    
+    <div id="chatroom" style="display: none;">
+      <h1>Chat<span><em></em><button type="button" id="verifyButton">Verify</button></span></h1>
+
+      <form id="verifyForm" style="display: none;">
+        <input type="password" name="password" placeholder="Password"  />
+        <button type="submit">Claim</button>
+      </form>
+  
+      <div id="userList">
+        <h3>Online</h3>
+        <ul></ul>
+      </div>
+
+      <div id="chat"></div>
+
+      <form id="messageForm">
+        <input type="text" name="message" style="width: 100%;" />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
 			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous"></script>
