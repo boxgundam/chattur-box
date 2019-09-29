@@ -39,6 +39,7 @@ function Sockets(app) {
                     // Store socket user data
                     connections[socket.id] = {
                         username: `${data.username} (#${generateId()})`,
+                        avatar: data.avatar,
                         registered: row ? true : false,
                         verified: false
                     };
@@ -61,7 +62,7 @@ function Sockets(app) {
         // Claim account
         socket.on(CLIENT_USER_CLAIM_EVENT, function(data){
             let connection = connections[socket.id];
-
+    
             if(connection.registered)
                 return socket.broadcast.emit(SERVER_USER_CLAIM_EVENT, {
                     source: Source.Self,
@@ -74,9 +75,10 @@ function Sockets(app) {
             let username = connection.username.split(' (#');
 
             db.serialize(function () {
-                db.run("INSERT INTO users (username, password) VALUES ($username, $password)", {
+                db.run("INSERT INTO users (username, password, avatar) VALUES ($username, $password, $avatar)", {
                     $username   : username[0],
-                    $password   : password
+                    $password   : password,
+                    $avatar     : connection.avatar
                 }, function (err) {
                     if(err)
                         return socket.broadcast.emit(SERVER_USER_CLAIM_EVENT, {
@@ -88,6 +90,8 @@ function Sockets(app) {
                     connections[socket.id].username = username[0];
                     connections[socket.id].registered = true;
                     connections[socket.id].verified = true;
+
+                    if(connections[socket.id])
 
                     socket.emit(SERVER_USER_CLAIM_EVENT, {
                         source: Source.Self,
@@ -125,13 +129,15 @@ function Sockets(app) {
 
                     // Send updated verification
                     connections[socket.id].username = username[0];
+                    connections[socket.id].avatar = row.avatar;
                     connections[socket.id].registered = true;
                     connections[socket.id].verified = row ? true : false;
 
                     socket.emit(SERVER_USER_VERIFY_EVENT, {
                         source: Source.Self,
                         status: 'success',
-                        connections: connections       
+                        connections: connections,
+                        user: connections[socket.id]    
                     });
                     socket.broadcast.emit(SERVER_USER_VERIFY_EVENT, {
                         source: Source.Peer,
