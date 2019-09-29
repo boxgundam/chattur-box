@@ -22,7 +22,8 @@ let user = null;
 let users = {};
 
 jQuery(document).ready(function($) {
-
+    $('input').val('');
+    
     // Join Chat
     $('#joinForm').on('submit', function(e) {
         e.preventDefault();
@@ -79,6 +80,26 @@ jQuery(document).ready(function($) {
 
         $('#verifyForm').toggle();
     });
+
+    // Allow image pasting
+    $('#messageForm [name="message"]').on('paste', function(e){
+        if(!e.originalEvent.clipboardData || !e.originalEvent.clipboardData.items);
+        let data = e.originalEvent.clipboardData;
+
+        for(let i in data.types) {
+            if(data.types[i].toLowerCase() == 'files') {
+                let blob = data.items[i].getAsFile();
+                let reader = new FileReader();
+                reader.onload = function(e){
+                    let message = `<img src="${e.target.result}" style="max-width: 100%" />`;
+                    addUserMessage(user, message);
+                    socket.emit(CLIENT_USER_MESSAGE_EVENT, { message: message });
+                };
+                reader.readAsDataURL(blob);
+            }
+        }
+        $(this).val('');
+    } );
 
     $('#joinForm [name="file_avatar"]').on('change', function(e) {
         let file = $(this)[0].files[0];
@@ -229,11 +250,12 @@ function addUserMessage(user, message) {
     let image = `<img src="${user.avatar ? user.avatar : getDefaultAvatar()}" class="avatar" />`;
     
     // Parse urls
-    message = message.replace(/(?:www|https?)[^\s]+/gi, function(capture) {
-        var url = capture.toLowerCase();
-        url = url.startsWith('www') ? `http://${url}` : url;
-        return `<a href="${url}" target="_blank">${capture}</a>`;
-    });
+    if(!message.startsWith('<img'))
+        message = message.replace(/(?:www|https?)[^\s]+/gi, function(capture) {
+            var url = capture.toLowerCase();
+            url = url.startsWith('www') ? `http://${url}` : url;
+            return `<a href="${url}" target="_blank">${capture}</a>`;
+        });
 
     $('#chat').append(`<p>
         <span class="username ${user.verified ? 'verified' : ''}">
@@ -241,6 +263,10 @@ function addUserMessage(user, message) {
         </span>
         ${message}
     </p>`);
+
+    $("#chat").stop().animate({ 
+        scrollTop: $('#chat')[0].scrollHeight
+    }, 1000);
 }
 
 function getDefaultAvatar() {
